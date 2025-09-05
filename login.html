@@ -32,21 +32,22 @@
   <script>
 
     // Check if username and password are stored in localStorage
-      const storedUsername = localStorage.getItem('username');
-      const storedPassword = localStorage.getItem('password');
+    const storedUsername = localStorage.getItem('username');
+    const storedPassword = localStorage.getItem('password');
 
     // Pre-fill email field
-      document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
+      // Only works on PC
 
-        // Check if both values exist
-        if (storedUsername && storedPassword) {
-          // Populate the login form fields with the stored values
+      // Check if both values exist
+      if (storedUsername && storedPassword) {
+        // Populate the login form fields with the stored values
 
-          console.log(storedUsername + '...' + storedPassword + 'Chap' + '$(chap-id)' + 'eeee' + '$(chap-challenge)');
-          document.getElementById("email").value = storedUsername;
-          document.getElementById("password").value = storedPassword;
-        }
-      });
+        console.log(storedUsername + '...' + storedPassword + 'Chap' + '$(chap-id)' + 'eeee' + '$(chap-challenge)');
+        document.getElementById("email").value = storedUsername;
+        document.getElementById("password").value = storedPassword;
+      }
+    });
 
     function doLogin() {
       document.sendin.username.value = document.login.username.value;
@@ -69,6 +70,43 @@
 
   </script>
   $(endif)
+  <script>
+    function handleAndroidNavigation(event, baseUrl) {
+        event.preventDefault();
+        const isAndroid = /Android/i.test(navigator.userAgent);
+
+        if (isAndroid) {
+          // Remove https:// and add intent scheme for Android
+          const intentUrl = `intent://${baseUrl.replace('https://', '')}#Intent;scheme=https;end`;
+          window.location.href = intentUrl;
+        } else {
+          window.open(baseUrl, '_blank');
+        }
+      }
+      
+    document.addEventListener('DOMContentLoaded', function () {
+      // Handle Register button
+      const registerButton = document.querySelector('.register-button a');
+      registerButton.addEventListener('click', (e) => {
+        handleAndroidNavigation(e, 'https://portal.usefastlink.com/signup');
+      });
+
+      // Handle User Portal link
+      const userPortalLink = document.querySelector('footer a[href*="portal.usefastlink.com"]');
+      userPortalLink.addEventListener('click', (e) => {
+        handleAndroidNavigation(e, 'https://portal.usefastlink.com/home');
+      });
+
+      // Add data purchase link to footer (your existing code)
+      const footer = document.querySelector('footer');
+      const link = document.createElement('a');
+      link.textContent = 'Out of Data? Buy data here';
+      link.addEventListener('click', (e) => {
+        handleAndroidNavigation(e, 'https://portal.usefastlink.com');
+      });
+      footer.insertBefore(link, footer.firstChild);
+    });
+  </script>
   <div class="ie-fixMinHeight">
     <div class="main">
       <div class="wrap animated fadeIn">
@@ -76,8 +114,7 @@
           <!-- <input type="hidden" name="dst" value="$(link-orig)" /> -->
           <input type="hidden" name="dst" value="https://usefastlink.com" />
           <input type="hidden" name="popup" value="false" />
-          <img src="img/fastlink_logo_black.png" alt="fastlink-logo"
-            style="height: auto; width: 200px; display: block; margin: 0 auto; padding: 30px" />
+          <img src="img/fastlink_logo_black.png" alt="fastlink-logo" style="height: auto; width: 200px; display: block; margin: 0 auto; padding: 30px" />
 
           <p class="info $(if error)alert$(endif)">
             $(if error == "")Please log in to use the internet hotspot $(if trial == 'yes')<br />Free trial
@@ -106,17 +143,19 @@
           <!-- <input type="register" value="Register"> </input> -->
 
           <button class="register-button">
-            <a href="https://portal.usefastlink.com/#/signup"
-              style="display: block; color:#E0371D; text-decoration: none">Register</a></button>
+            <a style="display: block; color:#E0371D; text-decoration: none">Register</a></button>
         </form>
 
         <footer>
-                    <!-- <a href="/buy-data.html">Buy or Claim Free Data</a> -->
-          <a href="https://portal.usefastlink.com">Out of Data? Buy data here</a>
+          <!-- <a href="/buy-data.html">Buy or Claim Free Data</a> -->
+          <!-- <a href="intent://portal.usefastlink.com#Intent;scheme=https;package=com.android.chrome;end">Out of Data? Buy data here</a> -->
+          <!-- <a href="intent://portal.usefastlink.com#Intent;scheme=https;end">Out of Data? Buy data here</a> -->
+          <!-- <a href="https://portal.usefastlink.com" target="_blank" rel="noopener noreferrer">Outtt of Data? Buy data here</a> Doesn't work on iOS and Android -->
+          <!-- <a href="intent://usefastlink.com#Intent;scheme=https;S.browser_fallback_url=https%3A%2F%2Fusefastlink.com;end">Outa of Data? Buy data here</a> -->
         </footer>
         <footer style="margin-top: 5px;">
           <a href="https://seyipaye.notion.site/FastLink-Data-Plan-eb10d6cf7ada447390f8023024b3c192">Pricing</a>
-          <a href="https://portal.usefastlink.com/#/home">User Portal</a>
+          <a href="https://portal.usefastlink.com/home">User Portal</a>
           <a href="sms:2348168706767">Contact us</a>
         </footer>
 
