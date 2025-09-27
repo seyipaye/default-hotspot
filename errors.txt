@@ -96,7 +96,7 @@ radius-timeout = RADIUS server is not responding
 # Authorization in progress. Client already has issued an authorization request
 # which is not yet complete.
 
-auth-in-progress = already authorizing, turn WiFi Off and On, and tap the connect button once
+auth-in-progress = already authorizing, retry later
 
 # radius-reply
 # Radius server returned some custom error message
