@@ -1,0 +1,80 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+    <title>Internet hotspot - Not logged in</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+        function openLogin() {
+            if (window.name != 'hotspot_logout') return true;
+            open('$(link-login)', '_self', '');
+            window.close();
+            return false;
+        }
+    </script>
+</head>
+
+<body>
+    <div class="ie-fixMinHeight">
+        <div class="main">
+            <div class="wrap">
+                <div style="text-align: center; max-width: 400px; margin: 0 auto;">
+                    <h1 style="margin-bottom: 20px;">You are not logged in</h1>
+
+                    <p style="margin-bottom: 25px; line-height: 1.5;">
+                        You cannot log out because you are not currently logged in to the hotspot.
+                    </p>
+
+                    <div class="info-box"
+                        style="margin-bottom: 30px; padding: 15px; background-color: #FF725E08; border-radius: 8px;">
+                        <p style="margin: 0; color: #495057;">To access the internet, please log in first.</p>
+                    </div>
+
+                    <form action="$(link-login)" name="login" onSubmit="return openLogin()">
+                        <input type="submit" value="Go to Login Page" class="login-btn"
+                            style="padding: 12px 24px; font-size: 16px; margin-top: 10px;">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Read URL parameters for username, password, and dst
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const username = urlParams.get('username');
+            const password = urlParams.get('password');
+            const dst = urlParams.get('dst');
+
+            console.log('URL Parameters detected:', {
+                username: username,
+                password: password ? '***hidden***' : 'not provided',
+                dst: dst
+            });
+
+            // Auto-initiate login if username and password are present
+            if (username && password) {
+                console.log('Auto-initiating login with provided credentials');
+
+                // Build login URL with parameters
+                const loginUrl = new URL('$(link-login)', window.location.origin);
+                loginUrl.searchParams.set('username', username);
+                loginUrl.searchParams.set('password', password);
+                if (dst) {
+                    loginUrl.searchParams.set('dst', dst);
+                }
+
+                // Redirect to login page with parameters
+                window.open(loginUrl.toString(), '_self');
+                // window.location.href = loginUrl.toString();
+            }
+        });
+    </script>
+
+</body>
+
+</html>
